@@ -19,21 +19,35 @@
 #include "imagesexportconfiguration.h"
 
 #include "settings.h"
+#include "settingsinfo.h"
 
 #include "libmscore/mscore.h"
 
 using namespace mu::framework;
 using namespace mu::iex::imagesexport;
 
-static const Settings::Key EXPORT_PDF_DPI_RESOLUTION_KEY("iex_imagesexport", "export/pdf/dpi");
-static const Settings::Key EXPORT_PNG_DPI_RESOLUTION_KEY("iex_imagesexport", "export/png/resolution");
 static const Settings::Key EXPORT_PNG_USE_TRASNPARENCY_KEY("iex_imagesexport", "export/png/useTransparency");
+static const Settings::Key EXPORT_PDF_COMBINE("iex_imagesexport", "export/pdf/combine");
+static const Settings::Key EXPORT_PNG_DPI_RESOLUTION_KEY("iex_imagesexport", "export/png/resolution");
+static const Settings::Key EXPORT_PDF_DPI_RESOLUTION_KEY("iex_imagesexport", "export/pdf/dpi");
 
 void ImagesExportConfiguration::init()
 {
     settings()->setDefaultValue(EXPORT_PNG_DPI_RESOLUTION_KEY, Val(Ms::DPI));
     settings()->setDefaultValue(EXPORT_PNG_USE_TRASNPARENCY_KEY, Val(true));
     settings()->setDefaultValue(EXPORT_PDF_DPI_RESOLUTION_KEY, Val(Ms::DPI));
+    settings()->setDefaultValue(EXPORT_PDF_COMBINE, Val(1));
+
+    settings()->setInfo(EXPORT_PDF_DPI_RESOLUTION_KEY,
+                        SettingsInfo::SettingsInfoPtr(new NumberSpinnerInfo("Export Resolution", 72, 2400, 1, "DPI")));
+
+    settings()->setInfo(EXPORT_PDF_COMBINE, SettingsInfo::SettingsInfoPtr(new RadioButtonGroupInfo("Export Scores:", { 1, 2 }, {
+        { 1, "As separate files" },
+        { 2, "Combined into a single file" }
+    })));
+
+    settings()->setInfo(EXPORT_PNG_USE_TRASNPARENCY_KEY,
+                        SettingsInfo::SettingsInfoPtr(new CheckboxInfo("Background", "Export with a transparent background")));
 }
 
 int ImagesExportConfiguration::exportPdfDpiResolution() const

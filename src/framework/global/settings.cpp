@@ -21,6 +21,8 @@
 #include "config.h"
 #include "log.h"
 
+#include <functional>
+
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDir>
@@ -128,7 +130,7 @@ void Settings::setValue(const Key& key, const Val& value)
     writeValue(key, value);
 
     if (item.isNull()) {
-        m_items[key] = Item{ key, value, value };
+        m_items[key] = Item{ key, value, value, nullptr };
     } else {
         item.value = value;
     }
@@ -137,6 +139,17 @@ void Settings::setValue(const Key& key, const Val& value)
     if (it != m_channels.end()) {
         async::Channel<Val> channel = it->second;
         channel.send(value);
+    }
+}
+
+void Settings::setInfo(const Key& key, SettingsInfo::SettingsInfoPtr info)
+{
+    {
+        Item& item = findItem(key);
+
+        if (!item.isNull()) {
+            item.info = std::move(info);
+        }
     }
 }
 
@@ -161,9 +174,13 @@ void Settings::setDefaultValue(const Key& key, const Val& value)
 {
     Item& item = findItem(key);
 
+    LOGI() << key.key << "\n";
+
     if (item.isNull()) {
-        m_items[key] = Item{ key, value, value };
+        LOGI() << "not found";
+        m_items[key] = Item{ key, value, value, nullptr };
     } else {
+        LOGI() << "found";
         item.defaultValue = value;
     }
 }
@@ -210,6 +227,11 @@ bool Settings::Key::operator==(const Key& k) const
 bool Settings::Key::operator<(const Key& k) const
 {
     return key < k.key;
+}
+
+std::size_t Settings::Key::hash::operator()(const Settings::Key& key) const
+{
+    return std::hash<std::string> {}(key.key);
 }
 
 bool Settings::Key::isNull() const

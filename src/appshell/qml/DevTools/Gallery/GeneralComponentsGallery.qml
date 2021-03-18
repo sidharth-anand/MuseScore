@@ -30,6 +30,7 @@ Rectangle {
                 width: parent.width
 
                 model: [
+                    { textRole: "SettingsListEditor", componentRole: settingsListSample},
                     { textRole: "StyledComboBox", componentRole: comboboxSample },
                     { textRole: "StyledPopup", componentRole: popupSample },
                     { textRole: "StyledPopupView", componentRole: styledPopupViewComponent },
@@ -50,7 +51,7 @@ Rectangle {
                     { textRole: "GridView", componentRole: gridViewVertical },
                     { textRole: "StyledSlider", componentRole: slidersSample },
                     { textRole: "NumberInputField", componentRole: numberInputFieldSample },
-                    { textRole: "TimeInputField", componentRole: timeInputFieldSample }
+                    { textRole: "TimeInputField", componentRole: timeInputFieldSample },
                 ]
 
                 delegate: Column {
@@ -480,7 +481,7 @@ Rectangle {
             IncrementalPropertyControl {
                 iconMode: iconModeEnum.hidden
 
-                currentValue: 0
+                currentValue: "0"
 
                 maxValue: 999
                 minValue: 0
@@ -495,7 +496,7 @@ Rectangle {
                 icon: IconCode.AUDIO
                 iconMode: iconModeEnum.right
 
-                currentValue: 0
+                currentValue: "0"
 
                 maxValue: 999
                 minValue: 0
@@ -510,7 +511,7 @@ Rectangle {
                 icon: IconCode.AUDIO
                 iconMode: iconModeEnum.left
 
-                currentValue: 0
+                currentValue: "0"
 
                 maxValue: 999
                 minValue: 0
@@ -844,5 +845,23 @@ Rectangle {
                 time = new Date(2021, 1, 3, 1, 23, 44, 3)
             }
         }
+    }
+
+    Component {
+        id: settingsListSample
+
+        SettingsList {
+            keyMatch: "export"
+            moduleMatch: ""
+
+            width:800
+            height: 400
+
+            controlHeight: 32
+            controlWidth: 200
+
+            controlControlSpacing: 40
+        }
+
     }
 }

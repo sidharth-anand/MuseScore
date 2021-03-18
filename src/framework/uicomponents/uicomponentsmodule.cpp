@@ -7,6 +7,7 @@
 #include "view/iconview.h"
 #include "view/filterproxymodel.h"
 #include "view/popupview.h"
+#include "view/settingslistmodel.h"
 
 #include "modularity/ioc.h"
 #include "ui/iuiengine.h"
@@ -53,6 +54,8 @@ void UiComponentsModule::registerUiTypes()
     qmlRegisterUncreatableType<CompareType>("MuseScore.UiComponents", 1, 0, "CompareType", "Cannot create a CompareType");
 
     qmlRegisterType<PopupView>("MuseScore.UiComponents", 1, 0, "PopupView");
+
+    qmlRegisterType<SettingsListModel>("MuseScore.UiComponents", 1, 0, "SettingsListModel");
 
     auto ui = framework::ioc()->resolve<ui::IUiEngine>(moduleName());
     if (ui) {

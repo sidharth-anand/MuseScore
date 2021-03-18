@@ -40,6 +40,8 @@ void CommandLineController::parse(const QStringList& args)
     m_parser.addOption(QCommandLineOption({ "F", "factory-settings" }, "Use factory settings"));
     m_parser.addOption(QCommandLineOption({ "R", "revert-settings" }, "Revert to factory settings, but keep default preferences"));
 
+    m_parser.addOption(QCommandLineOption({ "d", "debug" }, "debug"));
+
     m_parser.process(args);
 }
 

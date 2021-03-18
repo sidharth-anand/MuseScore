@@ -21,8 +21,10 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "val.h"
+#include "settingsinfo.h"
 #include "async/channel.h"
 
 //! NOTE We are gradually abandoning Qt in non-GUI classes.
@@ -49,6 +51,11 @@ public:
         bool isNull() const;
         bool operator==(const Key& k) const;
         bool operator<(const Key& k) const;
+
+        struct hash
+        {
+            std::size_t operator()(const Key& key) const;
+        };
     };
 
     struct Item
@@ -56,11 +63,12 @@ public:
         Key key;
         Val value;
         Val defaultValue;
+        SettingsInfo::SettingsInfoPtr info;
 
         bool isNull() const { return key.isNull(); }
     };
 
-    using Items = std::map<Key, Item>;
+    using Items = std::unordered_map<Key, Item, Key::hash>;
 
     const Items& items() const;
 
@@ -74,6 +82,8 @@ public:
 
     void setValue(const Key& key, const Val& value);
     void setDefaultValue(const Key& key, const Val& value);
+
+    void setInfo(const Key& key, SettingsInfo::SettingsInfoPtr info);
 
     async::Channel<Val> valueChanged(const Key& key) const;
 

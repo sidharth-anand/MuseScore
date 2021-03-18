@@ -11,7 +11,7 @@ Rectangle {
         anchors.fill: parent
         onStatusChanged: {
             if (item && item.anchors) item.anchors.fill = item ? item.parent : null
-            item.visible = true
+            if(item) item.visible = true
         }
     }
 
