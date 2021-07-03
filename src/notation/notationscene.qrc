@@ -24,5 +24,6 @@
         <file>qml/MuseScore/NotationScene/UndoRedoToolBar.qml</file>
         <file>qml/MuseScore/NotationScene/internal/ElementPopup.qml</file>
         <file>qml/MuseScore/NotationScene/internal/TempoPopup.qml</file>
+        <file>qml/MuseScore/NotationScene/internal/DurationPicker.qml</file>
     </qresource>
 </RCC>

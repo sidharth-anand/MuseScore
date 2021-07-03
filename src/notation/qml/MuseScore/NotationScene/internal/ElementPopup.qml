@@ -16,17 +16,32 @@ StyledPopup {
 
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-    width: 200
-
-    leftPadding: 0
+    leftPadding: 10
+    rightPadding: 10
 
     function isVisible(type) {
         return type === root.type;
     }
 
+    function popupWidth() {
+        return root.width - root.leftPadding - root.rightPadding;
+    }
+
+    function preOpening() {
+        switch(root.type) {
+        case "Tempo":
+            tempoPopup.parseEquation();
+            tempoPopup.setActiveTab();
+            break;
+        default:
+            break;
+        }
+    }
+
     TempoPopup {
+        id: tempoPopup
+
         model: root.model.modelByType(Inspector.TYPE_TEMPO)
-        width: root.width
         visible: isVisible("Tempo")
     }
 }

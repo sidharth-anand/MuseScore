@@ -255,6 +255,8 @@ FocusScope {
             elementPopup.x = pos.x + size.x / 2 - elementPopup.width / 2;
             elementPopup.y = pos.y + size.y / 2;
 
+            elementPopup.preOpening();
+
             elementPopup.open();
         }
 
